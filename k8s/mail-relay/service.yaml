@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail-relay
+  labels:
+    app: mail-relay
+spec:
+  ports:
+    - port: 25
+  selector:
+    app: mail-relay
+    tier: backend
+  clusterIP: None

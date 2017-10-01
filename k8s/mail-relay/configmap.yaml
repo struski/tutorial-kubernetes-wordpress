@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mail-relay-config
+data:
+  RELAY_HOST_NAME: "example.com"
+  ACCEPTED_NETWORKS: "192.168.0.0/16 172.16.0.0/12 10.0.0.0/8"
+  EXT_RELAY_HOST: "in-v3.mailjet.com" # USE YOUR OWN MAILJET SETTINGS HERE
+  EXT_RELAY_PORT: "2525"
+  USE_TLS: "no"
+  TLS_VERIFY: "may"
+
+

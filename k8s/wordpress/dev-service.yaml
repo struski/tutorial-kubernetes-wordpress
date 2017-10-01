@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dev-example-wordpress
+  labels:
+      app: example
+      env: dev
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: example
+    tier: frontend
+    env: dev

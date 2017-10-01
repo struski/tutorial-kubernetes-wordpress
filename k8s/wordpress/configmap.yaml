@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config
+data:
+  WP_HOME: http://example.com
+  WP_SITEURL: http://example.com
+  TABLE_PREFIX: wp_
+  WP_CONTENT_DIR: /var/www/example.com/wp-content
+  FS_METHOD: direct
+  WP_DEBUG: "false"
+  WP_DEBUG_LOG: "false"
+  WP_DEBUG_DISPLAY: "false"
+  WP_POST_REVISIONS: "3"
+  DB_HOST: wordpress-mysql
+  DB_NAME: example
+  DB_CHARSET: utf8mb4
+  DB_COLLATE: ""
+

@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: wordpress-ingress
+ annotations:
+   kubernetes.io/tls-acme: "true"
+   kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - hosts:
+    - example.com
+    - www.example.com
+#  UNCOMMENT WHEN TUTORIAL POINTS YOU TO THIS PLACE - Development environment on Kubernetes
+#    - dev.example.com
+    secretName: tls-secret
+  rules:
+    - host: example.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: example-wordpress
+              servicePort: 80
+    - host: www.example.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: example-wordpress
+              servicePort: 80
+#  UNCOMMENT WHEN TUTORIAL POINTS YOU TO THIS PLACE - Development environment on Kubernetes
+#    - host: dev.example.com
+#      http:
+#        paths:
+#          - path: /
+#            backend:
+#              serviceName: dev-example-wordpress
+#              servicePort: 80

@@ -1,0 +1,10 @@
+apiVersion: v1
+metadata:
+  name: kube-lego
+  namespace: kube-lego
+data:
+  # MODIFY THIS to specify your email address
+  lego.email: "YOUR_USERNAME@DOMAIN"
+  # configre letencrypt's production api
+  lego.url: "https://acme-v01.api.letsencrypt.org/directory"
+kind: ConfigMap

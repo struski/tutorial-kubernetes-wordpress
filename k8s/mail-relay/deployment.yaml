@@ -1,0 +1,65 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mail-relay
+  labels:
+    app: mail-relay
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mail-relay
+        tier: backend
+    spec:
+      containers:
+      - name: mail-relay
+        image: registry.gitlab.com/YOUR_USERNAME/example.com/mail-relay:v1.0.0
+        imagePullPolicy: Always
+        env:
+        - name: RELAY_HOST_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: mail-relay-config
+              key: RELAY_HOST_NAME
+        - name: ACCEPTED_NETWORKS
+          valueFrom:
+            configMapKeyRef:
+              name: mail-relay-config
+              key: ACCEPTED_NETWORKS
+        - name: EXT_RELAY_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: mail-relay-config
+              key: EXT_RELAY_HOST
+        - name: EXT_RELAY_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: mail-relay-config
+              key: EXT_RELAY_PORT
+        - name: USE_TLS
+          valueFrom:
+            configMapKeyRef:
+              name: mail-relay-config
+              key: USE_TLS
+        - name: TLS_VERIFY
+          valueFrom:
+            configMapKeyRef:
+              name: mail-relay-config
+              key: TLS_VERIFY
+        - name: SMTP_LOGIN
+          valueFrom:
+            secretKeyRef:
+              name: mail-relay-secret
+              key: SMTP_LOGIN
+        - name: SMTP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mail-relay-secret
+              key: SMTP_PASSWORD
+        ports:
+        - containerPort: 25
+          name: smtp
+      imagePullSecrets:
+          - name: registry.gitlab.com

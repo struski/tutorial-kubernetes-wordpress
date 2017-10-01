@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wordpress-mysql
+  labels:
+    tier: mysql
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: mysql
+    spec:
+      containers:
+      - image: mysql:5.7
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: ROOT_PASSWORD
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+# You can specify probes that will determine if a Pod is alive and ready. This is out of the scope of this tutorial
+#        livenessProbe:
+#          exec:
+#            command: ["mysqladmin", "ping", "-p$MYSQL_ROOT_PASSWORD"]
+#          initialDelaySeconds: 30
+#          timeoutSeconds: 5
+#        readinessProbe:
+#          exec:
+#            # Check we can execute queries over TCP (skip-networking is off).
+#            command: ["mysql", "-h", "127.0.0.1", "-p$MYSQL_ROOT_PASSWORD", "-e 'SELECT 1;'"]
+#          initialDelaySeconds: 5
+#          timeoutSeconds: 1
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc

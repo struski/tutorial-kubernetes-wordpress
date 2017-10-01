@@ -1,0 +1,8 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+
+alias update='apk update && apk upgrade'
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
+alias ls='ls --color=auto'
+shopt -s checkwinsize
