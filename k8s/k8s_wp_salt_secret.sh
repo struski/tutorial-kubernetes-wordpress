@@ -25,7 +25,7 @@ if [ ! -z "$API_RESPONSE" -a "$API_RESPONSE" != " " ]; then
         tmp=${tmp%$suffix}
         tmp=$(echo $tmp | sed -e "s/',[[:space:]]\+'/ /g")
         vname=$(echo $tmp | cut -d' ' -f1)
-        salt=$(echo $tmp | cut -d' ' -f2- | base64 -w 0)
+        salt=$(echo $tmp | cut -d' ' -f2- | base64 | tr -d '\n')
         printf "  $vname: $salt\n" >> $FILENAME
     done <<< "$API_RESPONSE"
     echo -e "File $FILENAME has been created"
