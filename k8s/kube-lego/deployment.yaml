@@ -1,10 +1,13 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
   name: kube-lego
   namespace: kube-lego
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: kube-lego
   template:
     metadata:
       labels:

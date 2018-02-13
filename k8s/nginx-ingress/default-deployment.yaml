@@ -1,10 +1,13 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
   name: default-http-backend
   namespace: nginx-ingress
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: default-http-backend
   template:
     metadata:
       labels:
