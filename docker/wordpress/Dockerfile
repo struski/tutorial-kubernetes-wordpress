@@ -5,9 +5,9 @@ COPY bashrc /etc/bash.bashrc
 COPY profile /etc/profile
 
 RUN apk add --no-cache git openssh-client nginx mysql-client \
-    supervisor curl bash nano
+    supervisor curl bash nano sed
 
-# START - COPIED FROM OFFICIAL WORDPRESS DOCKERFILE - https://github.com/docker-library/wordpress/blob/master/php7.1/fpm-alpine/Dockerfile
+# START - COPIED FROM OFFICIAL WORDPRESS DOCKERFILE - https://github.com/docker-library/wordpress/blob/master/php7.2/fpm-alpine/Dockerfile
 # Modifications made to original:
 #     - Jetpack plugin - added libxml2-dev package and php extensions: xml and xmlrpc - remove if plugin not used
 # install the PHP extensions we need
@@ -20,7 +20,8 @@ RUN set -ex; \
 	; \
 	\
 	docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
-	docker-php-ext-install gd mysqli opcache xml xmlrpc; \
+	docker-php-ext-install gd mysqli opcache zip xml xmlrpc; \
+	\
 	runDeps="$( \
 		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
 			| tr ',' '\n' \
@@ -41,8 +42,8 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-ENV WORDPRESS_VERSION 4.9.6
-ENV WORDPRESS_SHA1 40616b40d120c97205e5852c03096115c2fca537
+ENV WORDPRESS_VERSION 4.9.8
+ENV WORDPRESS_SHA1 0945bab959cba127531dceb2c4fed81770812b4f
 
 RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
@@ -50,7 +51,7 @@ RUN set -ex; \
 # upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
 	rm wordpress.tar.gz;
-# END - COPIED FROM OFFICIAL WORDPRESS DOCKERFILE - https://github.com/docker-library/wordpress/blob/master/php7.1/fpm-alpine/Dockerfile
+# END - COPIED FROM OFFICIAL WORDPRESS DOCKERFILE - https://github.com/docker-library/wordpress/blob/master/php7.2/fpm-alpine/Dockerfile
 
 # iconv FIX - uncomment if you ever encounter iconv problem
 #RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
