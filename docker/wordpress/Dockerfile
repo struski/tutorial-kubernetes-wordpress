@@ -42,8 +42,8 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-ENV WORDPRESS_VERSION 4.9.8
-ENV WORDPRESS_SHA1 0945bab959cba127531dceb2c4fed81770812b4f
+ENV WORDPRESS_VERSION 5.1.1
+ENV WORDPRESS_SHA1 f1bff89cc360bf5ef7086594e8a9b68b4cbf2192
 
 RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
@@ -52,10 +52,6 @@ RUN set -ex; \
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
 	rm wordpress.tar.gz;
 # END - COPIED FROM OFFICIAL WORDPRESS DOCKERFILE - https://github.com/docker-library/wordpress/blob/master/php7.2/fpm-alpine/Dockerfile
-
-# iconv FIX - uncomment if you ever encounter iconv problem
-#RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
-#ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # based on tutorial https://codeable.io/wordpress-developers-intro-to-docker-part-two/
 ENV WORDPRESS_ROOT /usr/src/wordpress
